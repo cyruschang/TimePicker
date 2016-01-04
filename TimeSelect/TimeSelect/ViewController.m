@@ -14,8 +14,14 @@
     int _currentYear;
     int _currentMonth;
     int _currentDay;
+    int _currentHour;
+    int _currentMin;
+    
     int _selectedYear;
     int _selectedMonth;
+    int _selectedDay;
+    int _selectedHour;
+    int _selectedMin;
 }
 @property (nonatomic, strong) NSDate       *date;
 @property (nonatomic, strong) UIView       *backgroundView;
@@ -45,9 +51,11 @@
     NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
     NSDateComponents *components = [calendar components:unitFlags fromDate:_date];
     
-    _currentYear   = (int)[components year];
-    _currentMonth  = (int)[components month];
-    _currentDay    = (int)[components day];
+    _currentYear  = (int)[components year];
+    _currentMonth = (int)[components month];
+    _currentDay   = (int)[components day];
+    _currentHour  = (int)[components hour];
+    _currentMin   = (int)[components minute];
 }
 - (IBAction)timeButtonClicked:(id)sender {
     [self.view addSubview:self.maskView];
@@ -84,7 +92,7 @@
 
 - (void)initPickerView {
     self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 216, SCREEN_WIDTH, 216)];
-    self.backgroundView.backgroundColor = [UIColor orangeColor];
+    self.backgroundView.backgroundColor = [UIColor whiteColor];
     
     UIButton *buttonCancel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
     [buttonCancel setTitle:@"取消" forState:UIControlStateNormal];
@@ -107,6 +115,8 @@
     [self.timePickerView selectRow:0 inComponent:0 animated:YES];
     [self.timePickerView selectRow:_currentMonth - 1 inComponent:1 animated:YES];
     [self.timePickerView selectRow:_currentDay - 1 inComponent:2 animated:YES];
+    [self.timePickerView selectRow:_currentHour inComponent:3 animated:YES];
+    [self.timePickerView selectRow:_currentMin inComponent:4 animated:YES];
 }
 
 - (void)cancelClicked:(UIButton *)button {
@@ -115,11 +125,51 @@
 
 - (void)sureClicked:(UIButton *)button {
     [self hideTimePicker];
+    
+    // 得到选择的时间
+    int year  = (int)[self.timePickerView selectedRowInComponent:0];
+    int month = (int)[self.timePickerView selectedRowInComponent:1];
+    int day   = (int)[self.timePickerView selectedRowInComponent:2];
+    int hour  = (int)[self.timePickerView selectedRowInComponent:3];
+    int min   = (int)[self.timePickerView selectedRowInComponent:4];
+    
+    DLog(@"%d-%d-%d", year, month, day);
+    int realYear = _currentYear + year;
+    int realMonth = month + 1;
+    int realDay = day + 1;
+    int realHour = hour;
+    int realMin = min;
+    
+    NSString *timeStr = [NSString stringWithFormat:@"%d-%02d-%02d %02d:%02d", realYear, realMonth, realDay, realHour, realMin];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm";
+    NSDate *date = [formatter dateFromString:timeStr];
+    date = [self getNowDateFromatAnDate:date];
+    DLog(@"%@", date);
+}
+
+//  IOS 世界标准时间UTC /GMT 转为当前系统时区对应的时间
+//  引用 http://blog.csdn.net/fengsh998/article/details/9731617
+- (NSDate *)getNowDateFromatAnDate:(NSDate *)anyDate
+{
+    //设置源日期时区
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];//或GMT
+    //设置转换后的目标日期时区
+    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    //得到源日期与世界标准时间的偏移量
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
+    //目标日期与本地时区的偏移量
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:anyDate];
+    //得到时间偏移量的差值
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    //转为现在时间
+    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
+    return destinationDateNow;
 }
 
 #pragma mark - UIPickerViewDataSource, UIPickerViewDelegate
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 3;
+    return 5;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
@@ -150,6 +200,14 @@
             }
 
         }break;
+        case 3:
+        {
+            return 24;
+        }break;
+        case 4:
+        {
+            return 60;
+        }
         default:
             return 0;
             break;
@@ -161,6 +219,12 @@
         _selectedYear = (int)row;
     } else if (component == 1) {
         _selectedMonth = (int)row;
+    } else if (component == 2) {
+        _selectedDay = (int)row;
+    } else if (component == 3) {
+        _selectedHour = (int)row;
+    } else {
+        _selectedMin = (int)row;
     }
     [pickerView reloadAllComponents];
     
@@ -171,8 +235,12 @@
         return [NSString stringWithFormat:@"%d年", _currentYear + (int)row];
     } else if (component == 1) {
         return [NSString stringWithFormat:@"%d月", (int)row + 1];
-    } else {
+    } else if (component == 2){
         return [NSString stringWithFormat:@"%d日", (int)row + 1];
+    } else if (component == 3) {
+        return [NSString stringWithFormat:@"%d时", (int)row];
+    } else {
+        return [NSString stringWithFormat:@"%d分", (int)row];
     }
 }
 
