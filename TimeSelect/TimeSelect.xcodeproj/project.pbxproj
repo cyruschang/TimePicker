@@ -15,6 +15,7 @@
 		C33050F01C3A27BA007B4C83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C33050EE1C3A27BA007B4C83 /* LaunchScreen.storyboard */; };
 		C33050FB1C3A27BA007B4C83 /* TimeSelectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C33050FA1C3A27BA007B4C83 /* TimeSelectTests.m */; };
 		C33051061C3A27BA007B4C83 /* TimeSelectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C33051051C3A27BA007B4C83 /* TimeSelectUITests.m */; };
+		C33051171C3A3919007B4C83 /* UIView+RGSize.m in Sources */ = {isa = PBXBuildFile; fileRef = C33051161C3A3919007B4C83 /* UIView+RGSize.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,9 @@
 		C33051011C3A27BA007B4C83 /* TimeSelectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeSelectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33051051C3A27BA007B4C83 /* TimeSelectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeSelectUITests.m; sourceTree = "<group>"; };
 		C33051071C3A27BA007B4C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C33051131C3A374D007B4C83 /* MacroDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroDefinition.h; sourceTree = "<group>"; };
+		C33051151C3A3919007B4C83 /* UIView+RGSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RGSize.h"; sourceTree = "<group>"; };
+		C33051161C3A3919007B4C83 /* UIView+RGSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RGSize.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,7 @@
 		C33050DF1C3A27BA007B4C83 /* TimeSelect */ = {
 			isa = PBXGroup;
 			children = (
+				C33051141C3A38F1007B4C83 /* Category */,
 				C33050E31C3A27BA007B4C83 /* AppDelegate.h */,
 				C33050E41C3A27BA007B4C83 /* AppDelegate.m */,
 				C33050E61C3A27BA007B4C83 /* ViewController.h */,
@@ -117,6 +122,7 @@
 		C33050E01C3A27BA007B4C83 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C33051131C3A374D007B4C83 /* MacroDefinition.h */,
 				C33050E11C3A27BA007B4C83 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -138,6 +144,15 @@
 				C33051071C3A27BA007B4C83 /* Info.plist */,
 			);
 			path = TimeSelectUITests;
+			sourceTree = "<group>";
+		};
+		C33051141C3A38F1007B4C83 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				C33051151C3A3919007B4C83 /* UIView+RGSize.h */,
+				C33051161C3A3919007B4C83 /* UIView+RGSize.m */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,6 +287,7 @@
 			files = (
 				C33050E81C3A27BA007B4C83 /* ViewController.m in Sources */,
 				C33050E51C3A27BA007B4C83 /* AppDelegate.m in Sources */,
+				C33051171C3A3919007B4C83 /* UIView+RGSize.m in Sources */,
 				C33050E21C3A27BA007B4C83 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +514,7 @@
 				C330510C1C3A27BA007B4C83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C330510D1C3A27BA007B4C83 /* Build configuration list for PBXNativeTarget "TimeSelectTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +523,7 @@
 				C330510F1C3A27BA007B4C83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C33051101C3A27BA007B4C83 /* Build configuration list for PBXNativeTarget "TimeSelectUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +532,7 @@
 				C33051121C3A27BA007B4C83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
